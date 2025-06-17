@@ -12,15 +12,16 @@ LOGGER = logging.getLogger(__name__)
 class Garmin:
     def __init__(self):
         LOGGER.debug("test message")
+        self.data_dir = pathlib.Path(__file__).parent / "data"
         self.session_dir = pathlib.Path(__file__).parent / "garth_session"
         if not self.session_dir.exists():
             LOGGER.debug("creating the dir %s", self.session_dir.parent)
             self.session_dir.mkdir()
 
-        self.activity_dir = pathlib.Path(__file__).parent / "data" / "activities"
+        self.activity_dir = self.data_dir / "activities"
         if not self.activity_dir.exists():
             LOGGER.debug("creating the activity dir: %s", self.data_dir)
-            self.activity_dir.mkdir()
+            self.activity_dir.mkdir(parents=True, exist_ok=True)
         self.client = None
 
         # write samples here to later look at
