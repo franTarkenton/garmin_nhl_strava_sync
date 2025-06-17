@@ -1,0 +1,47 @@
+name: ETL TEST
+
+on:
+  # schedule: [cron: "0 */2 * * *"] # Every other hour on the hour
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
+jobs:
+  etl-test:
+    name: ETL (TEST)
+    environment: test
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13.1'
+
+      - name: Install uv
+        run: |
+          curl -LsSf https://astral.sh/uv/install.sh | sh
+          echo "$HOME/.cargo/bin" >> $GITHUB_PATH
+
+
+      - name: Run script with secrets
+        env:
+          GARMIN_USER: ${{ secrets.GARMIN_USER }}
+          GARMIN_PASSWORD: ${{ secrets.GARMIN_PASSWORD }}
+          STRAVA_SECRET: ${{ secrets.STRAVA_SECRET }}
+          STRAVA_REFRESH: ${{ secrets.STRAVA_REFRESH }}
+          STRAVA_CLIENT_ID: ${{ secrets.STRAVA_CLIENT_ID }}
+          STRAVA_ACCESS_TOKEN: ${{ secrets.STRAVA_ACCESS_TOKEN }}
+        run: |
+          echo "Running the Garmin POS sync script"
+          uv run python main.py
+          
+
+      - name: cleanup
+        if: always()
+        run: |
+          rm -rf garth_session
