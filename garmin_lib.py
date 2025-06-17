@@ -22,11 +22,13 @@ class Garmin:
         oath1 = os.getenv("GARMIN_OAUTH1", None)
         if oath1:
             oath1_file = self.session_dir / "oauth1_token.json"
+            LOGGER.debug("creating the oauth1 file: %s", oath1_file)
             with oath1_file.open("w") as fh:
                 fh.write(oath1)
         oath2 = os.getenv("GARMIN_OAUTH2", None)
         if oath2:
             oath2_file = self.session_dir / "oauth2_token.json"
+            LOGGER.debug("creating the oauth2 file: %s", oath2_file)
             with oath2_file.open("w") as fh:
                 fh.write(oath2)
 
