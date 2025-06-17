@@ -12,15 +12,30 @@ LOGGER = logging.getLogger(__name__)
 class Garmin:
     def __init__(self):
         LOGGER.debug("test message")
+        self.data_dir = pathlib.Path(__file__).parent / "data"
         self.session_dir = pathlib.Path(__file__).parent / "garth_session"
         if not self.session_dir.exists():
             LOGGER.debug("creating the dir %s", self.session_dir.parent)
             self.session_dir.mkdir()
 
-        self.activity_dir = pathlib.Path(__file__).parent / "data" / "activities"
+        # write tokens if they exist in env vars
+        oath1 = os.getenv("GARMIN_OAUTH1", None)
+        if oath1:
+            oath1_file = self.session_dir / "oauth1_token.json"
+            LOGGER.debug("creating the oauth1 file: %s", oath1_file)
+            with oath1_file.open("w") as fh:
+                fh.write(oath1)
+        oath2 = os.getenv("GARMIN_OAUTH2", None)
+        if oath2:
+            oath2_file = self.session_dir / "oauth2_token.json"
+            LOGGER.debug("creating the oauth2 file: %s", oath2_file)
+            with oath2_file.open("w") as fh:
+                fh.write(oath2)
+
+        self.activity_dir = self.data_dir / "activities"
         if not self.activity_dir.exists():
             LOGGER.debug("creating the activity dir: %s", self.data_dir)
-            self.activity_dir.mkdir()
+            self.activity_dir.mkdir(parents=True, exist_ok=True)
         self.client = None
 
         # write samples here to later look at

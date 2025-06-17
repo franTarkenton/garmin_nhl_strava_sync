@@ -25,7 +25,7 @@ class Strava:
         self.access = os.getenv("STRAVA_ACCESS_TOKEN")
         if not self.is_token_valid(self.access):
             LOGGER.info("getting new access key")
-            self.access = self.ll(client, secret, refresh)
+            self.access = self.get_access_token(client, secret, refresh)
 
     def get_access_token(self, client, secret, refresh):
         LOGGER.debug("getting new access token...")
