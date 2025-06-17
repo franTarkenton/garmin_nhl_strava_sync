@@ -32,6 +32,8 @@ jobs:
         env:
           GARMIN_USER: ${{ secrets.GARMIN_USER }}
           GARMIN_PASSWORD: ${{ secrets.GARMIN_PASSWORD }}
+          GARMIN_OAUTH1:  ${{ secrets.GARMIN_OAUTH1 }}
+          GARMIN_OAUTH2:  ${{ secrets.GARMIN_OAUTH2 }}
           STRAVA_SECRET: ${{ secrets.STRAVA_SECRET }}
           STRAVA_REFRESH: ${{ secrets.STRAVA_REFRESH }}
           STRAVA_CLIENT_ID: ${{ secrets.STRAVA_CLIENT_ID }}
