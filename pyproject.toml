@@ -1,0 +1,13 @@
+[project]
+name = "garmin-sync"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "fitdecode>=0.10.0",
+    "garminconnect>=0.2.23",
+    "garth>=0.5.6",
+    "nhl-api-py>=2.18.0",
+    "python-dateutil>=2.9.0.post0",
+]
